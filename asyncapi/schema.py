@@ -1,3 +1,5 @@
+from marshmallow_dataclass import class_schema
+from marshmallow_jsonschema import JSONSchema
 from typing import (
     Any,
     Dict,
@@ -12,28 +14,7 @@ from typing import (
 
 
 def type_as_jsonschema(python_type: Type[Any]) -> Dict[str, Any]:
-    if python_type is Any:
-        return {}
-
-    schema_type = SCALARS.get(python_type)
-
-    if schema_type is None:
-        origin = get_origin(python_type)
-
-        if origin is list or origin is Sequence or origin is Iterable:
-            schema = {
-                'type': 'array',
-                'items': type_as_jsonschema(python_type.__args__[0]),
-            }
-
-            if hasattr(python_type.__args__[0], '__additional_items__'):
-                schema['additionalItems'] = python_type.__additional_items__
-
-            return schema
-
-        return build_object_schema(python_type)
-
-    return {'type': schema_type}
+    return JSONSchema().dump(class_schema(x)())["definitions"][x.__name__]
 
 
 def build_object_schema(python_type: Type[Any]) -> Dict[str, Any]:

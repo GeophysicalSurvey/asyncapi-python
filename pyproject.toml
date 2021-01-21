@@ -66,6 +66,8 @@ docs = [
     'apidaora',
     'jinja2',
     'markdown',
+    'marshmallow-dataclass'
+    'marshmallow-jsonschema'
     'uvicorn'
 ]
 gcloud-pubsub = [

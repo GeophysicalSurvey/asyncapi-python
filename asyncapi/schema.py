@@ -14,7 +14,7 @@ from typing import (
 
 
 def type_as_jsonschema(python_type: Type[Any]) -> Dict[str, Any]:
-    return JSONSchema().dump(class_schema(x)())["definitions"][x.__name__]
+    return JSONSchema().dump(class_schema(python_type)())["definitions"][python_type.__name__]
 
 
 def build_object_schema(python_type: Type[Any]) -> Dict[str, Any]:
